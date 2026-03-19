@@ -197,27 +197,7 @@
     }
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-    .hero-scroll {
-      position: absolute; bottom: 28px; left: 50%;
-      transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      opacity: 0;
-      animation: fadeUp 1s 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
-      transition: opacity 0.15s ease;
-      pointer-events: none;
-    }
 
-    .scroll-line {
-      width: 1px; height: 36px;
-      background: linear-gradient(to bottom, var(--text3), transparent);
-      animation: scrollPulse 2s infinite;
-    }
-    @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:0.9} }
-
-    .scroll-label {
-      font-size: 0.65rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--text3);
-    }
 
     /* SHARED */
     .section-inner {
@@ -599,10 +579,7 @@
         <a href="#features" class="btn-primary">explore features</a>
         <a href="#privacy" class="btn-ghost">privacy first</a>
       </div>
-      <div class="hero-scroll">
-        <span class="scroll-label">scroll</span>
-        <div class="scroll-line"></div>
-      </div>
+
     </section>
 
     <!-- FEATURES -->
@@ -894,13 +871,6 @@
       requestAnimationFrame(loop);
     })();
 
-    // SCROLL INDICATOR FADE
-    const heroScroll = document.querySelector('.hero-scroll');
-    window.addEventListener('scroll', () => {
-      if (!heroScroll) return;
-      const opacity = Math.max(0, 1 - window.scrollY / 120);
-      heroScroll.style.opacity = opacity;
-    }, { passive: true });
     const revealEls = document.querySelectorAll(
       '.feature-card, .hiw-step, .stat-card, .heatmap-wrap, .privacy-card, .cta-card, .ai-bubble'
     );
