@@ -90,15 +90,14 @@
     .theme-toggle {
       width: 36px; height: 36px;
       border-radius: 50%;
-      border: 1px solid var(--surface-border);
-      background: var(--surface);
-      backdrop-filter: blur(10px);
+      border: none;
+      background: transparent;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       color: var(--text2);
       transition: all 0.25s ease;
     }
-    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-toggle:hover { color: var(--accent); }
     .theme-toggle svg { width: 15px; height: 15px; stroke-width: 2; }
 
     .nav-cta {
@@ -553,7 +552,6 @@
   <nav>
     <a href="#" class="nav-logo">check-d</a>
     <div class="nav-right">
-      <a href="#features" class="nav-cta">features</a>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <i data-lucide="sun"></i>
       </button>
