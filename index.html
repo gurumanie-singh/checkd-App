@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -134,7 +134,7 @@
       padding: 6px 14px; border-radius: 100px;
       margin-bottom: 36px;
       opacity: 0; transform: translateY(16px);
-      animation: fadeUp 0.8s 0.05s var(--transition) forwards;
+      animation: fadeUp 0.8s 0.05s cubic-bezier(0.16,1,0.3,1) forwards;
     }
 
     .hero-eyebrow-dot {
@@ -154,7 +154,7 @@
       line-height: 0.95; letter-spacing: -0.03em;
       color: var(--text); margin-bottom: 24px;
       opacity: 0; transform: translateY(20px);
-      animation: fadeUp 0.9s 0.15s var(--transition) forwards;
+      animation: fadeUp 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) forwards;
     }
     .hero-title em { font-style: italic; color: var(--accent); }
 
@@ -163,13 +163,13 @@
       color: var(--text2); max-width: 500px;
       line-height: 1.65; margin-bottom: 44px;
       opacity: 0; transform: translateY(20px);
-      animation: fadeUp 0.9s 0.28s var(--transition) forwards;
+      animation: fadeUp 0.9s 0.28s cubic-bezier(0.16,1,0.3,1) forwards;
     }
 
     .hero-actions {
       display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
       opacity: 0; transform: translateY(20px);
-      animation: fadeUp 0.9s 0.42s var(--transition) forwards;
+      animation: fadeUp 0.9s 0.42s cubic-bezier(0.16,1,0.3,1) forwards;
     }
 
     .btn-primary {
@@ -202,7 +202,7 @@
       transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 8px;
       opacity: 0;
-      animation: fadeUp 1s 0.9s var(--transition) forwards;
+      animation: fadeUp 1s 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
     }
 
     .scroll-line {
@@ -810,8 +810,12 @@
     window.scrollTo(0, 0);
   </script>
   <script>
-    // LUCIDE — call directly, script is already loaded synchronously
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    // LUCIDE — init immediately and on window load as fallback
+    function initLucide() {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+    initLucide();
+    window.addEventListener('load', initLucide);
 
     // THEME
     const toggle = document.getElementById('themeToggle');
@@ -822,7 +826,7 @@
       const icon = toggle.querySelector('i');
       if (icon) {
         icon.setAttribute('data-lucide', theme === 'dark' ? 'moon' : 'sun');
-        if (typeof lucide !== 'undefined') lucide.createIcons();
+        initLucide();
       }
     }
 
