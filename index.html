@@ -203,6 +203,8 @@
       display: flex; flex-direction: column; align-items: center; gap: 8px;
       opacity: 0;
       animation: fadeUp 1s 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
     }
 
     .scroll-line {
@@ -801,7 +803,7 @@
 
   <footer>
     <a href="#" class="footer-logo">check-d</a>
-    <p class="footer-text">© 2025 check-d. Built with iCloud + SwiftUI.</p>
+    <p class="footer-text">© 2026 check-d. Built with iCloud + SwiftUI.</p>
   </footer>
 
   <script>
@@ -892,7 +894,13 @@
       requestAnimationFrame(loop);
     })();
 
-    // SCROLL REVEAL
+    // SCROLL INDICATOR FADE
+    const heroScroll = document.querySelector('.hero-scroll');
+    window.addEventListener('scroll', () => {
+      if (!heroScroll) return;
+      const opacity = Math.max(0, 1 - window.scrollY / 120);
+      heroScroll.style.opacity = opacity;
+    }, { passive: true });
     const revealEls = document.querySelectorAll(
       '.feature-card, .hiw-step, .stat-card, .heatmap-wrap, .privacy-card, .cta-card, .ai-bubble'
     );
