@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -41,6 +41,8 @@
     }
 
     html { scroll-behavior: smooth; }
+    /* Prevent browser restoring scroll position on load */
+    html, body { scroll-snap-type: none; }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -109,16 +111,17 @@
     main { position: relative; z-index: 1; }
     section { position: relative; }
 
-    /* HERO — fixed to viewport height so content is immediately visible */
+    /* HERO — exactly one viewport tall, content centred accounting for nav */
     .hero {
-      height: 100svh;
+      height: 100dvh;
       min-height: 580px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 64px clamp(24px, 6vw, 80px) 80px;
+      padding: 64px clamp(24px, 6vw, 80px) 60px;
+      padding-top: calc(64px + 48px); /* nav height + breathing room */
     }
 
     .hero-eyebrow {
@@ -802,12 +805,13 @@
   </footer>
 
   <script>
-    // LUCIDE
-    function initIcons() {
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-    document.addEventListener('DOMContentLoaded', initIcons);
-    window.addEventListener('load', initIcons);
+    // Force page to top on every load — before any rendering
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+  </script>
+  <script>
+    // LUCIDE — call directly, script is already loaded synchronously
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 
     // THEME
     const toggle = document.getElementById('themeToggle');
@@ -815,13 +819,11 @@
 
     function applyTheme(theme) {
       root.setAttribute('data-theme', theme);
-      setTimeout(() => {
-        const icon = toggle.querySelector('i');
-        if (icon) {
-          icon.setAttribute('data-lucide', theme === 'dark' ? 'moon' : 'sun');
-          if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
-      }, 10);
+      const icon = toggle.querySelector('i');
+      if (icon) {
+        icon.setAttribute('data-lucide', theme === 'dark' ? 'moon' : 'sun');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
     }
 
     const saved = localStorage.getItem('theme') || 'light';
